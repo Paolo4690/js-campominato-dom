@@ -13,10 +13,8 @@ header {
     margin: auto;
 }
 
-header::after{
-    content: '';
-    display: table;
-    clear: both;
+header {
+    display: flex;
 }
 
 main {
@@ -37,15 +35,14 @@ footer {
 }
 
 header .left{
-    float: left;
     display: flex;
     height: 70px;
     align-items: center;
     gap: 1rem;
+    margin-right: auto;
 }
 
 header .right{
-    float: right;
     display: flex;
     justify-content: end;
     align-items: center;

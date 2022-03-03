@@ -21,9 +21,10 @@ function createGrid() {
     
     eleContainer.innerHTML = ''
     eleResult.classList.remove('lose', 'win')
-    let z = 0
     const numBoxRow = Math.sqrt(arrDifficolta[eleOptDifficolta.value])
-
+    let z = 0
+    let conteggio = []
+    let stopClick = true
     createBomb()
 
     for (let i = 1; i <= arrDifficolta[eleOptDifficolta.value]; i++) {
@@ -33,21 +34,49 @@ function createGrid() {
         square.style.height = `calc(100% / ${numBoxRow})`
         square.innerHTML = i;
         eleContainer.append(square);
-        square.addEventListener('click', function() {// FUNZIONE COLORE CELLA
-            if (arrBomb.includes(i)) {
-                this.style.backgroundColor = 'red'
-                eleContainerResult.classList.add('lose')
-                eleWinLose.innerHTML = 'YOU LOSE'
-                eleParagrph.innerHTML = `il tuo punteggio è ${z}`
-                
-            } else{
-                this.classList.add('color-cell')
-                z++
-            }
+        if (stopClick) {
+            square.addEventListener('click', function() {// FUNZIONE COLORE CELLA
+                if (arrBomb.includes(i)) {
+                    this.style.backgroundColor = 'red'
+                    eleContainerResult.classList.add('lose')
+                    eleWinLose.innerHTML = 'YOU LOSE'
+                    eleParagrph.innerHTML = `il tuo punteggio è ${z}`  
+                    stopClick = false  
+                    console.log(stopClick)            
+                } else{
+                    if (this.classList.contains('color-cell') == false) { //CONTROLLO SE HAI GIA CLICCATO LA CELLA
+                        this.classList.add('color-cell')
+                        conteggio.push(z)   // CODICE PER IL CONTEGGIO SE HAI VINTO FINO A RIGA 60
+                        z++                
+                        if (conteggio.length == 84 && eleOptDifficolta.value == 0) {
+                            eleContainerResult.classList.add('win')
+                            eleWinLose.innerHTML = 'YOU WIN'
+                            eleParagrph.innerHTML = `il tuo punteggio è 84, il massimo per la difficoltà scelta`   
+                            stopClick = false              
+                        } else if (conteggio.length == 65 && eleOptDifficolta.value == 1) {
+                            eleContainerResult.classList.add('win')
+                            eleWinLose.innerHTML = 'YOU WIN'
+                            eleParagrph.innerHTML = `il tuo punteggio è 65, il massimo per la difficoltà scelta`   
+                            stopClick = false              
+                        } else if (conteggio.length == 33 && eleOptDifficolta.value == 2) {
+                            eleContainerResult.classList.add('win')
+                            eleWinLose.innerHTML = 'YOU WIN'
+                            eleParagrph.innerHTML = `il tuo punteggio è 33, il massimo per la difficoltà scelta`   
+                            stopClick = false              
+                        }// FINE CODICE PER IL CONTEGGIO  SE HAI VINTO
+                    }
+                }
 
-        })
+            });
+        }
     }
+
+
+
 }
+
+
+// FUNZIONE CONTEGGIO CLASSI (COLORCELL )
 
 
 // FUNZIONE CREA BOMBE IN ARRAY 
