@@ -103,10 +103,10 @@ button#re-play {
 
 .win {
     display: block;
-    background-color: green;
+    background-color: rgba(0, 128, 0, .9);
 }
 
 .lose {
     display: block;
-    background-color: rgba(192, 0, 0, .7);
+    background-color: rgba(192, 0, 0, .9);
 }
