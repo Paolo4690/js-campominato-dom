@@ -25,6 +25,7 @@ main {
     height: 500px;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 footer {
@@ -52,7 +53,8 @@ header .right{
     gap: .5rem;
 }
 
-button#play {
+button#play,
+button#re-play {
     padding: 0 1rem;
 }
 
@@ -76,4 +78,35 @@ button#play {
 
 .color-cell {
     background-color: #6495ed;
+}
+
+.container-result-game {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #fff;
+    width:  600px;
+    height: 250px;
+    padding-top: 1.5rem ;
+    border-radius: 20px;
+}
+.container-result-game h1 {
+    font-size: 3rem;
+    padding-bottom: 1.5rem;
+}
+.container-result-game p {
+    padding-bottom: 3rem;
+}
+
+.win {
+    display: block;
+    background-color: green;
+}
+
+.lose {
+    display: block;
+    background-color: rgba(192, 0, 0, .7);
 }
