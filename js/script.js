@@ -24,7 +24,7 @@ function createGrid() {
     const numBoxRow = Math.sqrt(arrDifficolta[eleOptDifficolta.value])
     let z = 0
     let conteggio = []
-    let stopClick = true
+    let stopClick = true                                                                                                   //non va
     createBomb()
 
     for (let i = 1; i <= arrDifficolta[eleOptDifficolta.value]; i++) {
@@ -34,14 +34,17 @@ function createGrid() {
         square.style.height = `calc(100% / ${numBoxRow})`
         square.innerHTML = i;
         eleContainer.append(square);
-        if (stopClick) {
+
+        if (stopClick == false) {                                                                                               //non va
+
+        } else {
             square.addEventListener('click', function() {// FUNZIONE COLORE CELLA
                 if (arrBomb.includes(i)) {
                     this.style.backgroundColor = 'red'
                     eleContainerResult.classList.add('lose')
                     eleWinLose.innerHTML = 'YOU LOSE'
                     eleParagrph.innerHTML = `il tuo punteggio è ${z}`  
-                    stopClick = false  
+                    stopClick = false                                                                                       //non va
                     console.log(stopClick)            
                 } else{
                     if (this.classList.contains('color-cell') == false) { //CONTROLLO SE HAI GIA CLICCATO LA CELLA
@@ -52,17 +55,17 @@ function createGrid() {
                             eleContainerResult.classList.add('win')
                             eleWinLose.innerHTML = 'YOU WIN'
                             eleParagrph.innerHTML = `il tuo punteggio è 84, il massimo per la difficoltà scelta`   
-                            stopClick = false              
+                            stopClick = false                                                                               //non va             
                         } else if (conteggio.length == 65 && eleOptDifficolta.value == 1) {
                             eleContainerResult.classList.add('win')
                             eleWinLose.innerHTML = 'YOU WIN'
                             eleParagrph.innerHTML = `il tuo punteggio è 65, il massimo per la difficoltà scelta`   
-                            stopClick = false              
+                            stopClick = false                                                                               //non va
                         } else if (conteggio.length == 33 && eleOptDifficolta.value == 2) {
                             eleContainerResult.classList.add('win')
                             eleWinLose.innerHTML = 'YOU WIN'
                             eleParagrph.innerHTML = `il tuo punteggio è 33, il massimo per la difficoltà scelta`   
-                            stopClick = false              
+                            stopClick = false                                                                                //non va             
                         }// FINE CODICE PER IL CONTEGGIO  SE HAI VINTO
                     }
                 }
