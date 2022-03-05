@@ -1,97 +1,97 @@
 const eleBtnPlay = document.querySelector('#play');
-const eleBtnRePlay = document.querySelector('#re-play');
-const eleOptDifficolta = document.querySelector('#difficolta');
-const eleContainer = document.querySelector('#container-campo-minato')
+const level = document.querySelector('#difficolta');
+const containerGame = document.querySelector('#container-campo-minato')
 
-const arrDifficolta =[100, 81, 49]
+const eleBtnRePlay = document.querySelector('#re-play');   
+const eleResult = document.querySelector('.container-result-game')
+const eleWinLose = document.querySelector('#win-lose')
+const eleParagrph = document.querySelector('#result-game')
 
-let arrBomb =[]
-eleBtnPlay.addEventListener('click', createGrid)
-eleBtnRePlay.addEventListener('click', createGrid)
+const arrDifficolta = [100, 81, 49]
+let arrBomb = []
+const numeroBombe = 16    
+let score 
 
+eleBtnPlay.addEventListener('click', game);
+eleBtnRePlay.addEventListener('click', game);
 
+function game (){
+    arrBomb = []
+    score = 0
+    containerGame.innerHTML = ''
+    eleResult.classList.remove('win', 'lose')
 
+    createGrid();
+    createBomb();
+	console.log('bombe', arrBomb.sort((a,b)=>a-b));
+};
 
-// FUNZIONE CREA CELLE + (CREA BOMBE IN ARRAY) 
+//funzione che crea celle in base alla difficoltà
 function createGrid() {
-    const eleContainerResult = document.querySelector('.container-result-game')
-    const eleResult = document.querySelector('.container-result-game')
-    const eleWinLose = document.querySelector('#win-lose')
-    const eleParagrph = document.querySelector('#result-game')
-    
-    eleContainer.innerHTML = ''
-    eleResult.classList.remove('lose', 'win')
-    const numBoxRow = Math.sqrt(arrDifficolta[eleOptDifficolta.value])
-    let z = 0
-    let conteggio = []
-    let stopClick = true                                                                                                   //non va
-    createBomb()
 
-    for (let i = 1; i <= arrDifficolta[eleOptDifficolta.value]; i++) {
+    const numBoxRow = Math.sqrt(arrDifficolta[level.value])
+
+    for (let i = 1; i <= arrDifficolta[level.value]; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
         square.style.width = `calc(100% / ${numBoxRow})`
         square.style.height = `calc(100% / ${numBoxRow})`
         square.innerHTML = i;
-        eleContainer.append(square);
+        containerGame.append(square);
 
-        if (stopClick == false) {                                                                                               //non va
-
-        } else {
-            square.addEventListener('click', function() {// FUNZIONE COLORE CELLA
-                if (arrBomb.includes(i)) {
-                    this.style.backgroundColor = 'red'
-                    eleContainerResult.classList.add('lose')
-                    eleWinLose.innerHTML = 'YOU LOSE'
-                    eleParagrph.innerHTML = `il tuo punteggio è ${z}`  
-                    stopClick = false                                                                                       //non va
-                    console.log(stopClick)            
-                } else{
-                    if (this.classList.contains('color-cell') == false) { //CONTROLLO SE HAI GIA CLICCATO LA CELLA
-                        this.classList.add('color-cell')
-                        conteggio.push(z)   // CODICE PER IL CONTEGGIO SE HAI VINTO FINO A RIGA 60
-                        z++                
-                        if (conteggio.length == 84 && eleOptDifficolta.value == 0) {
-                            eleContainerResult.classList.add('win')
-                            eleWinLose.innerHTML = 'YOU WIN'
-                            eleParagrph.innerHTML = `il tuo punteggio è 84, il massimo per la difficoltà scelta`   
-                            stopClick = false                                                                               //non va             
-                        } else if (conteggio.length == 65 && eleOptDifficolta.value == 1) {
-                            eleContainerResult.classList.add('win')
-                            eleWinLose.innerHTML = 'YOU WIN'
-                            eleParagrph.innerHTML = `il tuo punteggio è 65, il massimo per la difficoltà scelta`   
-                            stopClick = false                                                                               //non va
-                        } else if (conteggio.length == 33 && eleOptDifficolta.value == 2) {
-                            eleContainerResult.classList.add('win')
-                            eleWinLose.innerHTML = 'YOU WIN'
-                            eleParagrph.innerHTML = `il tuo punteggio è 33, il massimo per la difficoltà scelta`   
-                            stopClick = false                                                                                //non va             
-                        }// FINE CODICE PER IL CONTEGGIO  SE HAI VINTO
-                    }
-                }
-
-            });
-        }
+        square.addEventListener('click', clickSquare)
     }
-
-
-
 }
 
+// funzione del click sulla cella con controlli
+function clickSquare() {
+    let numeroCella = parseInt(this.innerHTML)
+    const squareGood = arrDifficolta[level.value] - numeroBombe
+    const squaresAll = document.querySelectorAll('.square');
 
-// FUNZIONE CONTEGGIO CLASSI (COLORCELL )
+    if (arrBomb.includes(numeroCella)) {
 
+        for (i = 0; i < squaresAll.length; i++) {
 
-// FUNZIONE CREA BOMBE IN ARRAY 
+            squaresAll[i].removeEventListener('click', clickSquare)
+
+            if (arrBomb.includes(parseInt(squaresAll[i].innerHTML))) {
+                squaresAll[i].classList.add('bomb')
+            }
+        }
+
+        eleResult.classList.add('lose')
+        eleWinLose.innerHTML = 'YOU LOSE'
+        eleParagrph.innerHTML = `il tuo punteggio è ${score}`
+
+    } else {
+
+        this.classList.add('color-cell')
+        score++
+    }    
+
+    if (squareGood == score) {
+        eleResult.classList.add('win')
+        eleWinLose.innerHTML = 'YOU WIN'
+        eleParagrph.innerHTML = `Il tuo punteggio è il massimo per questa difficoltà ${score}`
+    }
+
+    this.removeEventListener('click', clickSquare)
+}
+
+// funzione crea numeri casuali
+function getRandomInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+// funzione che crea una lista di bombe sempre diversa
 function createBomb() {
-    arrBomb = []
-    for (let i = 0; arrBomb.length < 16; i++) {
-        let random = Math.floor(Math.random() * (arrDifficolta[eleOptDifficolta.value] - 1) + 1);
+    for (let i = 0; arrBomb.length < numeroBombe; i++) {
+        let random = getRandomInteger(1, arrDifficolta[level.value]);
 
         if (!arrBomb.includes(random)) {
             arrBomb.push(random)
         }
     }
-    console.log(arrBomb)
+    return arrBomb
 }
-//  FINE FUNZIONE CREA BOMBE IN ARRAY 

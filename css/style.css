@@ -11,9 +11,6 @@ body {
 header {
     width: 900px;
     margin: auto;
-}
-
-header {
     display: flex;
 }
 
@@ -23,7 +20,6 @@ main {
     height: 500px;
     justify-content: center;
     align-items: center;
-    position: relative;
 }
 
 footer {
@@ -50,8 +46,7 @@ header .right{
     gap: .5rem;
 }
 
-button#play,
-button#re-play {
+button {
     padding: 0 1rem;
 }
 
@@ -80,7 +75,7 @@ button#re-play {
 .container-result-game {
     display: none;
     position: absolute;
-    top: 25%;
+    top: 20.8%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -90,10 +85,12 @@ button#re-play {
     padding-top: 1.5rem ;
     border-radius: 20px;
 }
+
 .container-result-game h1 {
     font-size: 3rem;
     padding-bottom: 1.5rem;
 }
+
 .container-result-game p {
     padding-bottom: 3rem;
 }
@@ -105,5 +102,9 @@ button#re-play {
 
 .lose {
     display: block;
-    background-color: rgba(192, 0, 0, .9);
+    background-color: rgba(192, 0, 0, .8);
+}
+
+.bomb {
+    background-color: red;
 }
